@@ -26,7 +26,7 @@ const BUSINESS = {
   mapEmbedSrc: "https://www.google.com/maps?q=33.6723396,72.9841005&output=embed",
   mapsUrl: "https://maps.app.goo.gl/d6PoSKD1R5gqF7KH8",
   geo: { lat: 33.6723396, lng: 72.9841005 },
-  // used for canonical/Open Graph tags, structured data, robots.txt & sitemap.xml.
+  // used for structured data (JSON-LD); canonical/OG tags are hardcoded per-page in HTML.
   siteUrl: "https://islamabadinterior.com",
   socials: {
     tiktok: "https://www.tiktok.com/@as_interior_islamabad",

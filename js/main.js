@@ -202,15 +202,6 @@
         case "mapsUrl":
           el.href = BUSINESS.mapsUrl;
           break;
-        case "canonicalHref":
-          el.href = BUSINESS.siteUrl;
-          break;
-        case "ogUrlContent":
-          el.setAttribute("content", BUSINESS.siteUrl);
-          break;
-        case "ogImageContent":
-          el.setAttribute("content", `${BUSINESS.siteUrl}/assets/images/og-cover.jpg`);
-          break;
         case "emailHref":
           el.href = `mailto:${BUSINESS.email}`;
           if (el.dataset.fieldText) el.textContent = BUSINESS[el.dataset.fieldText];
