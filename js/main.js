@@ -268,7 +268,7 @@
     summary.innerHTML = `
       <span class="reviews-stars">${STAR_ICON.repeat(5)}</span>
       <span class="reviews-score">${REVIEWS.rating}</span>
-      <span class="reviews-count">${REVIEWS.count} Google Reviews</span>
+      <a class="reviews-count" href="${REVIEWS.url}" target="_blank" rel="noopener">${REVIEWS.count} Google Reviews</a>
     `;
 
     const grid = document.getElementById("reviewsGrid");
