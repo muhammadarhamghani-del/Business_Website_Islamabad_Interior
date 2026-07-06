@@ -26,10 +26,37 @@ const BUSINESS = {
   mapEmbedSrc: "https://www.google.com/maps?q=33.6723396,72.9841005&output=embed",
   mapsUrl: "https://maps.app.goo.gl/d6PoSKD1R5gqF7KH8",
   geo: { lat: 33.6723396, lng: 72.9841005 },
-  // placeholder — update to the real domain once the site is live (used for
-  // canonical/Open Graph tags, structured data, robots.txt & sitemap.xml).
-  siteUrl: "https://www.example-islamabadhomes.com",
+  // used for canonical/Open Graph tags, structured data, robots.txt & sitemap.xml.
+  siteUrl: "https://islamabadinterior.com",
 };
+
+// ---- FAQ content (rendered on-page + mirrored into FAQPage structured data) ----
+const FAQS = [
+  {
+    q: "What services does AS Interior Islamabad offer?",
+    a: "We provide complete interior design and fit-out services, including wall panels (PVC and solid), wallpaper, UV sheets, media walls, PU stone cladding, wooden, laminate, SPC, Turkish and vinyl flooring, false and gypsum ceilings, roller blinds, insulation, artificial grass, PVC molding, fomic sheet, and bespoke furniture. Whether it's a single room or a full home or office, we handle it. Message us on WhatsApp to discuss your project.",
+  },
+  {
+    q: "Which areas do you serve?",
+    a: "We serve Islamabad and Rawalpindi, with our showroom located on Main Service Golra Road in F-11/1, Islamabad. From F-sectors and E-sectors to Bahria Town and beyond, our team works across the twin cities. Send us a WhatsApp message with your location and we'll take it from there.",
+  },
+  {
+    q: "How do I get a quote for my project?",
+    a: "Simply message us on WhatsApp with details of your space — photos, measurements, or even just a rough idea of what you want. Our team will guide you on suitable options and share pricing based on your requirements. Every project is different, so we quote after understanding your exact needs.",
+  },
+  {
+    q: "What materials do you use for flooring and wall panels?",
+    a: "For flooring we offer wooden, laminate, SPC, Turkish, and vinyl options in both local and imported varieties, so there's something for every budget. For walls, we work with PVC panels (normal and hard), solid panels, UV sheets, PU stone cladding, and wallpaper. Message us on WhatsApp and we can share samples and options that suit your space.",
+  },
+  {
+    q: "How can I contact AS Interior Islamabad?",
+    a: 'The fastest way to reach us is WhatsApp — just tap the "Message on WhatsApp" button anywhere on this page. Share your requirements and our team will respond with guidance, options, and next steps, including arranging a site visit if needed. You can also visit us at Main Service Golra Road, F-11/1, Islamabad.',
+  },
+  {
+    q: "Why should I choose AS Interior Islamabad?",
+    a: "We're rated 4.9 stars on Google from 119 reviews by customers across Islamabad and Rawalpindi — a reflection of the quality and care we put into every job. From premium materials to proper installation, we treat your space like our own. Message us on WhatsApp and see the difference for yourself.",
+  },
+];
 
 // ---- Google reviews (edit rating/count here once they change on Google) ----
 const REVIEWS = {
@@ -648,4 +675,4 @@ const PRODUCT_CATALOGUE = [
   },
 ];
 
-window.SITE_DATA = { BUSINESS, REVIEWS, PRODUCT_CATALOGUE, slugify };
+window.SITE_DATA = { BUSINESS, REVIEWS, PRODUCT_CATALOGUE, FAQS, slugify };

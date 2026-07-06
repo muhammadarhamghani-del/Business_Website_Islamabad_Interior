@@ -81,14 +81,19 @@ The relevant code to change is `setupContactForm()` in `js/main.js`.
 
 The site is set up for local SEO targeting Islamabad:
 
-- `BUSINESS.siteUrl` in `js/data.js` is a **placeholder domain**. Once the
-  site has a real domain, update it there, and in `robots.txt` and
-  `sitemap.xml` (the `Sitemap:` line and `<loc>` respectively) — canonical
-  tags, Open Graph `og:url`, and the LocalBusiness structured data all read
-  from `siteUrl`.
-- `js/main.js`'s `injectStructuredData()` builds a `LocalBusiness` JSON-LD
-  block straight from `BUSINESS` (name, address, phone, geo coordinates,
-  `areaServed`) — keep that object accurate and the schema stays correct.
+- `BUSINESS.siteUrl` in `js/data.js` is set to the live domain
+  (`https://islamabadinterior.com`) — canonical tags, Open Graph `og:url`,
+  and the structured data all read from `siteUrl`. If the domain ever
+  changes, update it there, plus `robots.txt` (`Sitemap:` line) and
+  `sitemap.xml` (`<loc>`).
+- `js/main.js`'s `injectStructuredData()` builds a `HomeAndConstructionBusiness`
+  JSON-LD block straight from `BUSINESS`/`PRODUCT_CATALOGUE`/`REVIEWS` (name,
+  address, phone, geo coordinates, `areaServed`, offers, reviews) — keep
+  those objects accurate and the schema stays correct.
+- `FAQS` in `js/data.js` powers both the visible FAQ section and a
+  `FAQPage` JSON-LD block (for FAQ rich results in Google search). Edit
+  questions/answers there — `js/main.js` renders and mirrors them
+  automatically, so they never drift out of sync.
 - Every product/category image gets `Islamabad` appended to its `alt` text
   automatically (see `createMedia(...)` calls in `main.js`) — no per-product
   edits needed.

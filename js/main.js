@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  const { BUSINESS, REVIEWS, PRODUCT_CATALOGUE } = window.SITE_DATA;
+  const { BUSINESS, REVIEWS, PRODUCT_CATALOGUE, FAQS } = window.SITE_DATA;
 
   const PLACEHOLDER_ICON = `
     <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -150,6 +150,42 @@
     script.type = "application/ld+json";
     script.textContent = JSON.stringify(data);
     document.head.appendChild(script);
+
+    // FAQPage schema — mirrors the visible FAQ section rendered below.
+    const faqData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.textContent = JSON.stringify(faqData);
+    document.head.appendChild(faqScript);
+  }
+
+  // ---- FAQ section ----
+  function renderFAQs() {
+    const list = document.getElementById("faqList");
+    FAQS.forEach((faq, index) => {
+      const item = document.createElement("details");
+      item.className = "faq-item";
+      if (index === 0) item.open = true;
+
+      const summary = document.createElement("summary");
+      summary.textContent = faq.q;
+
+      const answer = document.createElement("p");
+      answer.textContent = faq.a;
+
+      item.appendChild(summary);
+      item.appendChild(answer);
+      list.appendChild(item);
+      reveal(item, (index % 3) * 70);
+    });
   }
 
   // ---- business fields (header, hero, contact, footer) ----
@@ -497,6 +533,7 @@
     injectStructuredData();
     renderOverview();
     renderTestimonials();
+    renderFAQs();
     revealStaticElements();
     document.getElementById("catalogueTree").appendChild(renderTree(PRODUCT_CATALOGUE));
     renderAllGalleryPanels();
