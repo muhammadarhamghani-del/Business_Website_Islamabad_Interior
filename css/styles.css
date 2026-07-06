@@ -491,6 +491,13 @@ a:focus-visible, button:focus-visible {
    from layout so its cards still line up in the .gallery grid above. */
 .gallery-panel { display: contents; }
 .gallery-panel[hidden] { display: none; }
+.gallery-panel-title {
+  grid-column: 1 / -1;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin: 0 0 -0.5rem;
+}
 .gallery-empty {
   grid-column: 1 / -1;
   text-align: center;
@@ -685,6 +692,68 @@ a:focus-visible, button:focus-visible {
 }
 
 /* ============================================================
+   Guides (/guides/ standalone article pages)
+   ============================================================ */
+.guide-hero {
+  background: var(--black);
+  color: var(--text-on-dark);
+  padding: 3rem 1.25rem 2.5rem;
+}
+.guide-hero .section-inner { max-width: 820px; }
+.guide-breadcrumb { color: var(--text-on-dark-muted); margin-bottom: 1rem; }
+.guide-breadcrumb a { text-decoration: underline; }
+.guide-breadcrumb span { color: var(--text-on-dark); font-weight: 600; }
+.guide-breadcrumb .sep { margin: 0 0.4rem; opacity: 0.5; }
+.guide-hero h1 {
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  color: var(--yellow);
+  margin-bottom: 0.75rem;
+}
+.guide-hero p { color: var(--text-on-dark-muted); font-size: 1.02rem; }
+.guide-hero-image {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+.guide-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.guide-article { padding: 3rem 1.25rem; }
+.guide-article .section-inner { max-width: 760px; }
+.guide-article h2 {
+  font-size: 1.3rem;
+  margin: 2.2rem 0 0.85rem;
+}
+.guide-article h2:first-child { margin-top: 0; }
+.guide-article p {
+  color: var(--text);
+  margin-bottom: 1.1rem;
+  font-size: 1rem;
+}
+.guide-list {
+  list-style: disc;
+  padding-left: 1.3rem;
+  margin-bottom: 1.1rem;
+}
+.guide-list li { margin-bottom: 0.5rem; }
+.guide-cta {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--off-white);
+  border-radius: var(--radius);
+}
+.guide-cta p { margin-bottom: 1rem; font-weight: 600; }
+
+.guide-related {
+  padding: 0 1.25rem 3.5rem;
+}
+.guide-related .section-inner { max-width: 760px; }
+.guide-related h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+.guide-related-links { display: flex; flex-direction: column; gap: 0.6rem; }
+.guide-related-links a { text-decoration: underline; font-weight: 600; }
+
+/* ============================================================
    Footer
    ============================================================ */
 .site-footer {
@@ -696,6 +765,14 @@ a:focus-visible, button:focus-visible {
 }
 .footer-inner { text-align: center; }
 .footer-city { margin-top: 0.3rem; }
+.footer-links {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+}
+.footer-links a { color: var(--text-on-dark-muted); text-decoration: underline; }
+.footer-links a:hover { color: var(--yellow); }
 
 @media (min-width: 860px) {
   .site-footer { padding-bottom: 2rem; }

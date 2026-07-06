@@ -126,7 +126,7 @@
       },
       areaServed: BUSINESS.areaServed,
       hasMap: BUSINESS.mapsUrl,
-      sameAs: [REVIEWS.url],
+      sameAs: [REVIEWS.url, BUSINESS.socials.tiktok, BUSINESS.socials.youtube],
       aggregateRating: {
         "@type": "AggregateRating",
         ratingValue: REVIEWS.rating,
@@ -214,6 +214,12 @@
         case "emailHref":
           el.href = `mailto:${BUSINESS.email}`;
           if (el.dataset.fieldText) el.textContent = BUSINESS[el.dataset.fieldText];
+          break;
+        case "socialTiktokHref":
+          el.href = BUSINESS.socials.tiktok;
+          break;
+        case "socialYoutubeHref":
+          el.href = BUSINESS.socials.youtube;
           break;
         default:
           if (BUSINESS[field] !== undefined) el.textContent = BUSINESS[field];
@@ -401,7 +407,12 @@
   // HTML for search engines to index — only the active panel is visible to
   // users, the rest are toggled with the `hidden` attribute (same pattern
   // browsers/Google already treat as fully-indexable, e.g. tabs & accordions).
-  function buildGalleryPanel(panel, node) {
+  function buildGalleryPanel(panel, node, path) {
+    const heading = document.createElement("h3");
+    heading.className = "gallery-panel-title";
+    heading.textContent = `${path.join(" — ")} in Islamabad`;
+    panel.appendChild(heading);
+
     if (node.relatedLinks && node.relatedLinks.length) {
       const combo = document.createElement("div");
       combo.className = "gallery-combo";
@@ -460,13 +471,13 @@
 
   function renderAllGalleryPanels() {
     const gallery = document.getElementById("gallery");
-    NODE_INDEX.forEach(({ node }, id) => {
+    NODE_INDEX.forEach(({ node, path }, id) => {
       if (node.items === undefined) return; // branch node, not a leaf
       const panel = document.createElement("div");
       panel.className = "gallery-panel";
       panel.dataset.leafId = id;
       panel.hidden = true;
-      buildGalleryPanel(panel, node);
+      buildGalleryPanel(panel, node, path);
       gallery.appendChild(panel);
       GALLERY_PANELS.set(id, panel);
     });

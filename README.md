@@ -97,16 +97,25 @@ The site is set up for local SEO targeting Islamabad:
 - Every product/category image gets `Islamabad` appended to its `alt` text
   automatically (see `createMedia(...)` calls in `main.js`) — no per-product
   edits needed.
-- `og:image` / `twitter:image` point at `assets/images/og-cover.jpg`, which
-  doesn't exist yet — add a real 1200×630 image there for link previews to
-  show a picture.
-- Note: individual product tiles (leaf-level items with photos) only render
-  into the page once a visitor clicks into a category — search engines that
-  don't simulate that click won't see those specific product names. The
-  category and sub-type names (e.g. "Wall Panel", "WPC", "25mm Imported")
-  are rendered immediately on load and are crawlable. If long-tail search
-  traffic on individual product names becomes a priority, that would need a
-  bigger change (e.g. pre-rendering every product into the page).
+- `og:image` / `twitter:image` point at `assets/images/og-cover.jpg` — a real
+  1200×630 cover image already lives there for link previews.
+- Every leaf category's product panel is built into the page at load time
+  (`renderAllGalleryPanels`/`buildGalleryPanel` in `js/main.js`) and only
+  hidden with the `hidden` attribute until a visitor clicks into it — so
+  every product name/description/image is present in the initial HTML and
+  crawlable by Google's renderer, not just the category names. Each panel
+  also gets an `<h3>` heading (category path + "in Islamabad") for topical
+  relevance.
+- `guides/` holds standalone long-form articles (`guides/index.html` is the
+  hub) targeting specific search queries beyond the one-page site — e.g.
+  "wall panels Islamabad", "false ceiling Islamabad". Each article is a
+  plain HTML file with its own title/meta/canonical/OG tags and
+  `Article`/`BreadcrumbList` JSON-LD, and includes `js/data.js` +
+  `js/guide.js` (a trimmed version of `applyBusinessFields()` — NOT the full
+  `main.js`, since these pages don't have the catalogue/review DOM it
+  expects). To add a 5th guide: copy an existing `guides/*.html` file, swap
+  the content/meta/JSON-LD, add it to `sitemap.xml`, and link it from
+  `guides/index.html` and the other guides' "More guides" section.
 
 ## Keeping a product spreadsheet
 

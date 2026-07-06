@@ -28,6 +28,10 @@ const BUSINESS = {
   geo: { lat: 33.6723396, lng: 72.9841005 },
   // used for canonical/Open Graph tags, structured data, robots.txt & sitemap.xml.
   siteUrl: "https://islamabadinterior.com",
+  socials: {
+    tiktok: "https://www.tiktok.com/@as_interior_islamabad",
+    youtube: "https://www.youtube.com/@AS_Interior_Islamabad",
+  },
 };
 
 // ---- FAQ content (rendered on-page + mirrored into FAQPage structured data) ----
@@ -55,6 +59,30 @@ const FAQS = [
   {
     q: "Why should I choose AS Interior Islamabad?",
     a: "We're rated 4.9 stars on Google from 119 reviews by customers across Islamabad and Rawalpindi — a reflection of the quality and care we put into every job. From premium materials to proper installation, we treat your space like our own. Message us on WhatsApp and see the difference for yourself.",
+  },
+  {
+    q: "Do you provide wall panel installation in F-10, F-11, or other F-sectors of Islamabad?",
+    a: "Yes, we work across Islamabad, and our own setup is based in F-11/1 on Main Service Golra Road — so the F-sectors are right in our neighbourhood. Whether it's PVC wall panels, media walls, or a full room makeover, send us your sector and house details on WhatsApp and we'll confirm a visit for your exact location.",
+  },
+  {
+    q: "Do you work in DHA Islamabad and Bahria Town?",
+    a: "We serve clients throughout Islamabad and Rawalpindi, and we regularly get enquiries from DHA and Bahria Town. Message us your phase or precinct on WhatsApp along with the work you have in mind — flooring, ceilings, blinds, anything — and we'll confirm coverage for your address and arrange the next step.",
+  },
+  {
+    q: "Can I get interior work done in Rawalpindi, like Cantt or Saddar areas?",
+    a: "Absolutely — Rawalpindi is very much part of our service area alongside Islamabad. Just share your exact location on WhatsApp with a photo or two of the space, and we'll confirm your area and guide you on measurements and material options from there.",
+  },
+  {
+    q: "What's the difference between a gypsum and a PVC false ceiling?",
+    a: "Gypsum gives a smooth, seamless, paintable finish and suits custom designs with concealed lighting, but it doesn't like moisture. PVC ceiling panels are waterproof, low-maintenance, and quicker to install, which makes them ideal for kitchens, bathrooms, and rental spaces. For living rooms and bedrooms, gypsum usually looks more premium. Send us a photo of your room on WhatsApp and we'll suggest the right option for your space and budget.",
+  },
+  {
+    q: "Is imported vinyl flooring better than local vinyl flooring?",
+    a: "Imported vinyl generally offers thicker wear layers, better finish quality, and longer life, while local vinyl is more budget-friendly and works well for lighter use or short-term needs. The right choice depends on foot traffic, moisture, and how long you plan to keep the floor. We stock both — message us on WhatsApp and we'll help you pick what suits your rooms.",
+  },
+  {
+    q: "How does PU stone compare to real stone cladding?",
+    a: "PU stone panels give you the look of natural stone at a fraction of the weight, so they install faster, put less load on your walls, and usually cost less overall. Real stone is heavier and more permanent but needs stronger fixing and more labour. For feature walls and media walls indoors, PU stone is often the smarter choice. WhatsApp us your wall size and we'll recommend the best fit.",
   },
 ];
 
