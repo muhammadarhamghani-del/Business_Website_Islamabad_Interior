@@ -31,6 +31,7 @@ const BUSINESS = {
   socials: {
     tiktok: "https://www.tiktok.com/@as_interior_islamabad",
     youtube: "https://www.youtube.com/@AS_Interior_Islamabad",
+    facebook: "https://www.facebook.com/profile.php?id=61587008565687",
   },
 };
 

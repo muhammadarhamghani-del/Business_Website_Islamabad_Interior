@@ -126,7 +126,7 @@
       },
       areaServed: BUSINESS.areaServed,
       hasMap: BUSINESS.mapsUrl,
-      sameAs: [REVIEWS.url, BUSINESS.socials.tiktok, BUSINESS.socials.youtube],
+      sameAs: [REVIEWS.url, BUSINESS.socials.tiktok, BUSINESS.socials.youtube, BUSINESS.socials.facebook],
       aggregateRating: {
         "@type": "AggregateRating",
         ratingValue: REVIEWS.rating,
@@ -211,6 +211,9 @@
           break;
         case "socialYoutubeHref":
           el.href = BUSINESS.socials.youtube;
+          break;
+        case "socialFacebookHref":
+          el.href = BUSINESS.socials.facebook;
           break;
         default:
           if (BUSINESS[field] !== undefined) el.textContent = BUSINESS[field];

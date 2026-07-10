@@ -31,6 +31,9 @@
         case "socialYoutubeHref":
           el.href = BUSINESS.socials.youtube;
           break;
+        case "socialFacebookHref":
+          el.href = BUSINESS.socials.facebook;
+          break;
         default:
           if (BUSINESS[field] !== undefined) el.textContent = BUSINESS[field];
       }
