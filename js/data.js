@@ -704,4 +704,6 @@ const PRODUCT_CATALOGUE = [
   },
 ];
 
-window.SITE_DATA = { BUSINESS, REVIEWS, PRODUCT_CATALOGUE, FAQS, slugify };
+const SITE_DATA = { BUSINESS, REVIEWS, PRODUCT_CATALOGUE, FAQS, slugify };
+if (typeof window !== "undefined") window.SITE_DATA = SITE_DATA;
+if (typeof module !== "undefined") module.exports = SITE_DATA;

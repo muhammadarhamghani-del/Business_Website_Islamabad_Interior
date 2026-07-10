@@ -1,14 +1,36 @@
 # Interior Design Business Website
 
-Plain HTML/CSS/JS, no build step. Open `index.html` in a browser, or deploy
-the folder as-is to any static host (Netlify, Vercel, GitHub Pages, cPanel, etc).
+Plain HTML/CSS/JS, no server/framework required at runtime. Open `index.html`
+in a browser, or deploy the folder as-is to any static host (Netlify, Vercel,
+GitHub Pages, cPanel, etc). There is one optional Node build step —
+`scripts/prerender.js` — see the SEO section below; it's only needed after
+editing `js/data.js`, not for local viewing or deployment itself.
 
 ## Files
 
-- `index.html` — page structure only (no product content lives here)
+- `index.html` — page structure, plus the pre-rendered Overview/Products/
+  Reviews/FAQ content and JSON-LD (see SEO section — regenerate with
+  `node scripts/prerender.js` after editing `js/data.js`)
 - `css/styles.css` — all styling
 - `js/data.js` — **single source of truth**: business info + full product catalogue
-- `js/main.js` — renders everything in `index.html` from `data.js`
+- `js/main.js` — wires up interactivity on top of the pre-rendered markup
+  (and can still render everything client-side from `data.js` if the
+  pre-render step hasn't been run)
+- `scripts/prerender.js` — build-time script that bakes `data.js` content
+  into `index.html`
+
+## Domains / hosting
+
+- `https://islamabadinterior.com` is the canonical production domain (Vercel).
+  `http://islamabadinterior.com` already 301/308-redirects to it automatically
+  — no action needed.
+- `https://www.islamabadinterior.com` currently does **not** work: DNS
+  resolves it, but it isn't added as a domain on the Vercel project, so
+  there's no valid SSL certificate for it and requests fail at the TLS
+  handshake. This needs a manual fix in the Vercel dashboard (Project →
+  Settings → Domains): add `www.islamabadinterior.com` and set it to redirect
+  to the apex domain, so it matches the canonical tags already in place
+  site-wide. This can't be fixed from the codebase.
 
 ## Adding or editing products
 
@@ -99,13 +121,35 @@ The site is set up for local SEO targeting Islamabad:
   edits needed.
 - `og:image` / `twitter:image` point at `assets/images/og-cover.jpg` — a real
   1200×630 cover image already lives there for link previews.
-- Every leaf category's product panel is built into the page at load time
-  (`renderAllGalleryPanels`/`buildGalleryPanel` in `js/main.js`) and only
-  hidden with the `hidden` attribute until a visitor clicks into it — so
-  every product name/description/image is present in the initial HTML and
-  crawlable by Google's renderer, not just the category names. Each panel
-  also gets an `<h3>` heading (category path + "in Islamabad") for topical
-  relevance.
+- **`index.html` is pre-rendered, not JS-only.** The Overview cards, every
+  leaf category's product panel, the Reviews section, the FAQ section, and
+  the `HomeAndConstructionBusiness`/`FAQPage` JSON-LD are all baked directly
+  into `index.html` by `scripts/prerender.js`, which reads `js/data.js` and
+  writes the same markup `js/main.js` would otherwise build client-side.
+  That means this content is present in the raw HTML response — visible to
+  crawlers and users with JavaScript disabled or failing, not just after JS
+  executes. `js/main.js` still runs on every page load: it detects the
+  pre-rendered markup (via `data-category-id`/`data-leaf-id`/`data-goto-id`
+  attributes and by checking whether containers already have children) and
+  wires up interactivity (category switching, WhatsApp links, structured
+  data) instead of re-creating the DOM, so nothing is duplicated. It also
+  still works standalone (rebuilding everything client-side) if you ever
+  open a copy of `index.html` before running the prerender step.
+
+  **Run this after any change to `js/data.js`, then commit the updated
+  `index.html`:**
+
+  ```
+  node scripts/prerender.js
+  ```
+
+  The product catalogue's own tree navigation (the sidebar you browse by
+  category) is still JS-rendered — it's pure navigation UI, and every
+  category name it would show is already present as static text elsewhere
+  (Overview cards, panel `<h3>` headings), so there's no unique content lost
+  for a no-JS visitor or crawler. A `<noscript>` banner near the top of
+  `index.html` tells real no-JS visitors that category switching won't work
+  and points them to WhatsApp.
 - `guides/` holds standalone long-form articles (`guides/index.html` is the
   hub) targeting specific search queries beyond the one-page site — e.g.
   "wall panels Islamabad", "false ceiling Islamabad". Each article is a

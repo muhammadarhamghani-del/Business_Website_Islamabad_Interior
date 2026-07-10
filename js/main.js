@@ -146,10 +146,23 @@
         itemOffered: { "@type": "Service", name: `${name} in Islamabad` },
       })),
     };
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.textContent = JSON.stringify(data);
-    document.head.appendChild(script);
+    // scripts/prerender.js bakes this same JSON-LD into index.html at build
+    // time (id="ld-localbusiness"/"ld-faqpage") so it's present without JS.
+    // If that ran, update the existing tag in place instead of appending a
+    // duplicate; otherwise (e.g. a guide page, or a stale/unbuilt copy)
+    // create it fresh so structured data is never missing.
+    function setJsonLd(id, payload) {
+      let script = document.getElementById(id);
+      if (!script) {
+        script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.id = id;
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(payload);
+    }
+
+    setJsonLd("ld-localbusiness", data);
 
     // FAQPage schema — mirrors the visible FAQ section rendered below.
     const faqData = {
@@ -161,15 +174,16 @@
         acceptedAnswer: { "@type": "Answer", text: f.a },
       })),
     };
-    const faqScript = document.createElement("script");
-    faqScript.type = "application/ld+json";
-    faqScript.textContent = JSON.stringify(faqData);
-    document.head.appendChild(faqScript);
+    setJsonLd("ld-faqpage", faqData);
   }
 
   // ---- FAQ section ----
+  // scripts/prerender.js bakes this same markup into index.html at build
+  // time, so <details>/<summary> works with zero JS. If it's already there
+  // (build ran), skip re-rendering — otherwise build it as before.
   function renderFAQs() {
     const list = document.getElementById("faqList");
+    if (list.children.length > 0) return;
     FAQS.forEach((faq, index) => {
       const item = document.createElement("details");
       item.className = "faq-item";
@@ -240,41 +254,54 @@
   }
 
   // ---- Section 1: overview cards ----
+  // scripts/prerender.js bakes this same markup into index.html at build
+  // time (each card tagged data-category-id). If it's already there, reuse
+  // those elements and just wire up the click handler instead of rebuilding.
   function renderOverview() {
     const grid = document.getElementById("overviewGrid");
+    const prerendered = grid.children.length > 0;
     PRODUCT_CATALOGUE.forEach((node, index) => {
-      const card = document.createElement("button");
-      card.className = "service-card";
-      card.type = "button";
+      let card;
+      if (prerendered) {
+        card = grid.querySelector(`[data-category-id="${node.id}"]`);
+        if (!card) return;
+      } else {
+        card = document.createElement("button");
+        card.className = "service-card";
+        card.type = "button";
 
-      const media = createMedia(`assets/images/services/${node.id}.jpg`, `${node.name} in Islamabad`);
-      card.appendChild(media);
+        const media = createMedia(`assets/images/services/${node.id}.jpg`, `${node.name} in Islamabad`);
+        card.appendChild(media);
 
-      const body = document.createElement("div");
-      body.className = "card-body";
-      body.innerHTML = `
-        <h3>${node.name}</h3>
-        <p>${node.cardDesc}</p>
-        ${node.comingSoon ? '<span class="card-badge">Coming Soon</span>' : ""}
-      `;
-      card.appendChild(body);
-
+        const body = document.createElement("div");
+        body.className = "card-body";
+        body.innerHTML = `
+          <h3>${node.name}</h3>
+          <p>${node.cardDesc}</p>
+          ${node.comingSoon ? '<span class="card-badge">Coming Soon</span>' : ""}
+        `;
+        card.appendChild(body);
+        grid.appendChild(card);
+        reveal(card, (index % 4) * 70);
+      }
       card.addEventListener("click", () => goToCategory(node.id));
-      grid.appendChild(card);
-      reveal(card, (index % 4) * 70);
     });
   }
 
   // ---- Testimonials (Google reviews) ----
+  // scripts/prerender.js bakes this same markup into index.html at build
+  // time. If it's already there (build ran), skip re-rendering.
   function renderTestimonials() {
     const summary = document.getElementById("reviewsSummary");
+    const grid = document.getElementById("reviewsGrid");
+    if (summary.children.length > 0 || grid.children.length > 0) return;
+
     summary.innerHTML = `
       <span class="reviews-stars">${STAR_ICON.repeat(5)}</span>
       <span class="reviews-score">${REVIEWS.rating}</span>
       <a class="reviews-count" href="${REVIEWS.url}" target="_blank" rel="noopener">${REVIEWS.count} Google Reviews</a>
     `;
 
-    const grid = document.getElementById("reviewsGrid");
     REVIEWS.items.forEach((review, index) => {
       const card = document.createElement("div");
       card.className = "review-card";
@@ -463,16 +490,31 @@
   const GALLERY_PANELS = new Map();
   let activePanel = null;
 
+  // scripts/prerender.js bakes every leaf category's panel markup into
+  // index.html at build time (data-leaf-id + data-goto-id attributes), so
+  // every product's name/description/image ships in the raw HTML. If that
+  // ran, reuse those panels (just wire up combo-link buttons) instead of
+  // rebuilding — otherwise (build not run) build them client-side as before.
   function renderAllGalleryPanels() {
     const gallery = document.getElementById("gallery");
+    const prerendered = gallery.querySelector(".gallery-panel") !== null;
     NODE_INDEX.forEach(({ node, path }, id) => {
       if (node.items === undefined) return; // branch node, not a leaf
-      const panel = document.createElement("div");
-      panel.className = "gallery-panel";
-      panel.dataset.leafId = id;
-      panel.hidden = true;
-      buildGalleryPanel(panel, node, path);
-      gallery.appendChild(panel);
+      let panel;
+      if (prerendered) {
+        panel = gallery.querySelector(`[data-leaf-id="${id}"]`);
+        if (!panel) return;
+        panel.querySelectorAll("[data-goto-id]").forEach((btn) => {
+          btn.addEventListener("click", () => goToCategory(btn.dataset.gotoId));
+        });
+      } else {
+        panel = document.createElement("div");
+        panel.className = "gallery-panel";
+        panel.dataset.leafId = id;
+        panel.hidden = true;
+        buildGalleryPanel(panel, node, path);
+        gallery.appendChild(panel);
+      }
       GALLERY_PANELS.set(id, panel);
     });
   }
